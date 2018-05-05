@@ -20,15 +20,17 @@ public class LoginDialog extends JDialog {
     private JLabel errorText = new JLabel("");
     private Component errorTextFiller;
     private Boolean loggedIn = false;
+    private Boolean debug;
 
 
     /**
      * Private constructor for LoginDialog. Use static LoginDialog.show to create.
      * @param parent JFrame of program
      */
-    private LoginDialog(JFrame parent)
+    private LoginDialog(JFrame parent,Boolean debug)
     {
         super(SwingUtilities.getWindowAncestor(parent));
+        this.debug = debug;
         createGUI();
     }
 
@@ -38,7 +40,17 @@ public class LoginDialog extends JDialog {
      */
     public static void show(JFrame parent)
     {
-        new LoginDialog(parent);
+        new LoginDialog(parent,false);
+    }
+
+    /**
+     * Debug Dialog. Automatically fills in username and password for testing
+     * @param parent
+     * @param debug
+     */
+    public static void show(JFrame parent, Boolean debug)
+    {
+        new LoginDialog(parent,debug);
     }
 
     /**
@@ -131,6 +143,11 @@ public class LoginDialog extends JDialog {
         });
 
         this.add(parent);
+
+        if (debug){
+            username.setText("admin");
+            password.setText("admin");
+        }
 
         pack();
         this.setLocationRelativeTo(null);
