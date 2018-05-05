@@ -357,7 +357,7 @@ public class MainScreen extends JPanel implements TaskModelListener
                 // TODO: (done) make the date print correctly.
                 // TODO: (done) make it accept null dates. it should produce empty date field.
                 SimpleDateFormat formater = new SimpleDateFormat("EEEE MMM dd-YYYY"); //thanks to stackoverflow user Rahul Tripathi.
-                String date = task.getDueDate() != null ? formater.format(task.getDueDate()): "";
+                String date = task.getDueDate() != null ? formater.format(task.getDueDate()): "No Due Date";
                 this.dueDateLabel = new JLabel(date);
                 // TODO: (done) pay attention to the background color of the component.
                 this.background = task.getColor();
@@ -395,9 +395,12 @@ public class MainScreen extends JPanel implements TaskModelListener
             this.add(this.descriptionTextArea);
             this.add(this.dueDateLabel);
             this.addMouseListener(this);
-
-            this.setMaximumSize(new Dimension(300,200));
+            //take care of sizing.
             this.setMinimumSize(new Dimension(300,200));
+            this.setMaximumSize(new Dimension(300,200));
+            this.nameLabel.setMaximumSize(new Dimension(this.getMaximumSize().width,this.nameLabel.getHeight()));
+            this.dueDateLabel.setMaximumSize(new Dimension(this.getMinimumSize().width, this.dueDateLabel.getHeight()));
+            
 
         }
 
