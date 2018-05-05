@@ -24,6 +24,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -164,6 +165,17 @@ public class MainScreen extends JPanel implements TaskModelListener
                 (ActionEvent e)->
                 {
                     // TODO: add code to shutdown the application.
+                	
+                	if(JOptionPane.showConfirmDialog(this, "Do you want to save the current task board?"
+                			, "", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                	{
+                		FileHandler.saveTaskBoard(boardMainModel);
+                	}
+                	
+                	JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+                	frame.setVisible(false);
+                	LoginDialog.show(frame);
+                	frame.setVisible(true);
                 });
         this.projectsDropDown.addActionListener(
                 (ActionEvent e)->
