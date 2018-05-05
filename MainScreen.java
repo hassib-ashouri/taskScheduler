@@ -58,7 +58,7 @@ public class MainScreen extends JPanel implements TaskModelListener
                 model;
         frame.setTitle(this.boardMainModel.getName());
         // setup the login dialog. by calling the mathods of lok. then try to show it.
-        LoginDialog.show(frame);
+        LoginDialog.show(frame,true);
         // setup the navbar and the catigoris columns.
         setupMainScreen();
         if(this.boardMainModel.numProjects() > 0)
@@ -302,6 +302,7 @@ public class MainScreen extends JPanel implements TaskModelListener
             if(this.boardMainModel.numProjects() > 0)
             {
                 this.selectedProjIndex = 0;
+                this.currentProj = this.boardMainModel.getProject(0);
             }
             else
             {
