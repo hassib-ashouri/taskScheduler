@@ -80,7 +80,7 @@ public class CreateEditTaskDialog extends JDialog {
         this.parent = parent;
         mainModel = model;
         taskModel = mainModel == null?parent.getCurrProj().createTask():new TaskModel(mainModel);
-        taskModel.setStatus(status);
+        taskModel.setStatus(mainModel==null?status:mainModel.getStatus());
         statusChoice = new JComboBox<Object>(parent.getCurrProj().getStatuses().toArray());
         createGUI();
     }
@@ -181,7 +181,7 @@ public class CreateEditTaskDialog extends JDialog {
         taskModel.setDescription(descriptionInput.getText());
         taskModel.setStatus((String)statusChoice.getSelectedItem());
         Date date;
-        if (mainModel == null)
+        if (mainModel == null || mainModel.getDueDate()==null)
         {
             GregorianCalendar c = (GregorianCalendar) datePicker.getModel().getValue();
             date = c==null?null:c.getTime();
