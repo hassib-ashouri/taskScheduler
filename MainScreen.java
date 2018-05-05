@@ -165,17 +165,17 @@ public class MainScreen extends JPanel implements TaskModelListener
                 (ActionEvent e)->
                 {
                     // TODO: add code to shutdown the application.
-                	
-                	if(JOptionPane.showConfirmDialog(this, "Do you want to save the current task board?"
-                			, "", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-                	{
-                		FileHandler.saveTaskBoard(boardMainModel);
-                	}
-                	
-                	JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-                	frame.setVisible(false);
-                	LoginDialog.show(frame);
-                	frame.setVisible(true);
+
+                    if(JOptionPane.showConfirmDialog(this, "Do you want to save the current task board?"
+                            , "", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                    {
+                        FileHandler.saveTaskBoard(boardMainModel);
+                    }
+
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+                    frame.setVisible(false);
+                    LoginDialog.show(frame);
+                    frame.setVisible(true);
                 });
         this.projectsDropDown.addActionListener(
                 (ActionEvent e)->
@@ -394,6 +394,10 @@ public class MainScreen extends JPanel implements TaskModelListener
             this.add(this.descriptionTextArea);
             this.add(this.dueDateLabel);
             this.addMouseListener(this);
+
+            this.setMaximumSize(new Dimension(300,200));
+            this.setMinimumSize(new Dimension(300,200));
+
         }
 
         private JLabel nameLabel;
@@ -482,8 +486,9 @@ public class MainScreen extends JPanel implements TaskModelListener
             this.add(scrolable);
 
 
-            //set preffered size
-            this.setPreferredSize(new Dimension(100,300));
+            //set prefered size
+            this.setMaximumSize(new Dimension(300,99999));
+            this.setMinimumSize(new Dimension(300,0));
         }
 
         private JLabel name;
