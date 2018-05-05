@@ -164,7 +164,7 @@ public class MainScreen extends JPanel implements TaskModelListener
         this.logoutBtn.addActionListener(
                 (ActionEvent e)->
                 {
-                    // TODO: add code to shutdown the application.
+                    // TODO: (done) add code to shutdown the application.
 
                     if(JOptionPane.showConfirmDialog(this, "Do you want to save the current task board?"
                             , "", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
@@ -182,7 +182,7 @@ public class MainScreen extends JPanel implements TaskModelListener
                 {
                     if(this.isDropDownListnerActivated)
                     {
-                        // TODO : pay attention to the listeners when switching bwrween projects.
+                        // TODO: (done) pay attention to the listeners when switching bwrween projects.
                         this.selectedProjIndex = this.projectsDropDown.getSelectedIndex();
                         ProjectModel toBeLoaded = this.boardMainModel.getProject(this.selectedProjIndex);
                         if(this.currentProj != toBeLoaded)
@@ -242,7 +242,7 @@ public class MainScreen extends JPanel implements TaskModelListener
 
     private void loadNewProjectDialog()
     {
-        //TODO: add code to show the create project dialog.
+        //TODO: (done) add code to show the create project dialog.
         // track the number of projects. and decide
         int oldProjectsCount = this.boardMainModel.numProjects();
         CreateEditProjectDialog.show(this, null);
@@ -271,7 +271,7 @@ public class MainScreen extends JPanel implements TaskModelListener
 
     private void loadEditProjectDialog()
     {
-        // TODO: add code to show the project edit dialog.
+        // TODO: (done) add code to show the project edit dialog.
         CreateEditProjectDialog.show(this,this.currentProj);
     }
 
@@ -405,7 +405,7 @@ public class MainScreen extends JPanel implements TaskModelListener
         }
 
         private JLabel nameLabel;
-        // TODO use something different than a JLabel because the text is not wraping.
+        // TODO: (done) use something different than a JLabel because the text is not wraping.
         private JTextArea descriptionTextArea;
         private JLabel dueDateLabel;
         private Color background;
@@ -469,7 +469,7 @@ public class MainScreen extends JPanel implements TaskModelListener
             this.addTaskBtn.setToolTipText("Add Task");
             // configure the action ll for the add button
             this.addTaskBtn.addActionListener((ActionEvent e) -> {
-                //TODO: include the code to show adding a task dialog.
+                //TODO: (done) include the code to show adding a task dialog.
                 CreateEditTaskDialog.show(MainScreen.this, this.name.getText());
             });
 
@@ -484,13 +484,12 @@ public class MainScreen extends JPanel implements TaskModelListener
             }
             this.add(this.name);
             this.add(this.addTaskBtn);
-            // TODO: make scrollbar all the way up.
+            // TODO: (done) make scrollbar all the way up.
             JScrollPane scrolable = new JScrollPane(tasksContainer);
+            scrolable.getVerticalScrollBar().setValue(0);
             scrolable.setPreferredSize(tasksContainer.getPreferredSize());
             this.add(scrolable);
-
-
-            //set prefered size
+            //set preferred size
             this.setMaximumSize(new Dimension(300,99999));
             this.setMinimumSize(new Dimension(300,0));
         }
