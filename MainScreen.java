@@ -237,7 +237,6 @@ public class MainScreen extends JPanel implements TaskModelListener
             this.saveTaskBoardBtn.setEnabled(false);
             loadNewProjectDialog();
         }
-
     }
 
     private void loadNewProjectDialog()
@@ -303,6 +302,7 @@ public class MainScreen extends JPanel implements TaskModelListener
             {
                 this.selectedProjIndex = 0;
                 this.currentProj = this.boardMainModel.getProject(0);
+                this.currentProj.addListener(this);
             }
             else
             {
@@ -400,7 +400,7 @@ public class MainScreen extends JPanel implements TaskModelListener
             this.setMaximumSize(new Dimension(300,200));
             this.nameLabel.setMaximumSize(new Dimension(this.getMaximumSize().width,this.nameLabel.getHeight()));
             this.dueDateLabel.setMaximumSize(new Dimension(this.getMinimumSize().width, this.dueDateLabel.getHeight()));
-            
+
 
         }
 
