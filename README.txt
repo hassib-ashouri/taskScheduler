@@ -1,5 +1,5 @@
 Ma, Kevin(010200411)
-Mak Chu, Lok()
+Mak Chu, Lok(009848332)
 Ashouri, Hassib(011889280)
 
 Instructions to run the jar:
