@@ -151,7 +151,7 @@ public class LoginDialog extends JDialog {
 
         pack();
         this.setLocationRelativeTo(null);
-        this.setSize(new Dimension(280,140));
+        //this.setSize(new Dimension(280,140));
         setVisible(true);
     }
 }
