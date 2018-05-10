@@ -163,6 +163,7 @@ public class CreateEditTaskDialog extends JDialog {
 
         this.add(mainPanel);
         pack();
+        this.setLocationRelativeTo(null);
         setVisible(true);
     }
 
