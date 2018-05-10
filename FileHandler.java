@@ -74,9 +74,9 @@ public class FileHandler {
                 file = fileChooser.getSelectedFile();
                 taskBoardModel.setFile(file);
                 taskBoardModel.setName(file.getName().split("\\.")[0]);
-                System.out.println("Save as file: " + file.getAbsolutePath());
+                //System.out.println("Save as file: " + file.getAbsolutePath());
             } else {
-                System.out.println("Canceled Save");
+                //System.out.println("Canceled Save");
                 return;
             }
         }

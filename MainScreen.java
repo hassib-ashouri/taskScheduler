@@ -30,7 +30,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-
+/**
+ * represents the mainboard of the application that will go in the frame.
+ */
 public class MainScreen extends JPanel implements TaskModelListener
 {
 
@@ -58,7 +60,7 @@ public class MainScreen extends JPanel implements TaskModelListener
                 model;
         frame.setTitle(this.boardMainModel.getName());
         // setup the login dialog. by calling the mathods of lok. then try to show it.
-        LoginDialog.show(frame,true);
+        LoginDialog.show(frame,false);
         // setup the navbar and the catigoris columns.
         setupMainScreen();
         if(this.boardMainModel.numProjects() > 0)
@@ -77,12 +79,6 @@ public class MainScreen extends JPanel implements TaskModelListener
         }
     }
 
-
-    //constructor for testing.
-    public MainScreen()
-    {
-
-    }
     /**
      * Jobs covered:
      * - instantiate all the components that should go in the navBar.
@@ -91,7 +87,7 @@ public class MainScreen extends JPanel implements TaskModelListener
      * - no strings gets added to the jcombobox
      * @return
      */
-    private JPanel setupNavBar()
+    private void setupNavBar()
     {
 
         this.projectsDropDown = new JComboBox<>();
@@ -114,8 +110,8 @@ public class MainScreen extends JPanel implements TaskModelListener
         this.navBar.add(this.logoutBtn);
         this.add(this.navBar,BorderLayout.NORTH);
         this.navBar.setSize(this.navBar.getWidth(), this.navBar.getMinimumSize().height);
-        return this.navBar;
     }
+
     /**
      * Jobs Covered:
      * - creates the groups component panels.
@@ -130,6 +126,7 @@ public class MainScreen extends JPanel implements TaskModelListener
 
         this.add(this.groupsComp,BorderLayout.CENTER);
     }
+
     /**
      * Jobs converd:
      * - set the size of the mainScreen and its layout.
@@ -194,11 +191,14 @@ public class MainScreen extends JPanel implements TaskModelListener
                     }
                 });
     }
+
     /**
-     * Adds TaskBoardModel list of projects back to jcomobox
+     * updates the list of projects based on the TaskBoardModel.
      */
     private void updateDropDown()
     {
+        // we need to deactivate the listener to prevent random 
+        // events to be thrown during the updating of the jcombobx
         this.isDropDownListnerActivated = false;
         this.projectsDropDown.removeAllItems();
         for(int i = 0; i < this.boardMainModel.numProjects(); i++)
@@ -217,7 +217,7 @@ public class MainScreen extends JPanel implements TaskModelListener
     private void loadDataFromCurrProject()
     {
         if( this.selectedProjIndex != -1)
-        {
+        {//if there is a current project selected.
             for(int i = 0; i < this.currentProj.numStatuses(); i++)
             {
                 Catergory_comp category = new Catergory_comp(
@@ -239,6 +239,9 @@ public class MainScreen extends JPanel implements TaskModelListener
         }
     }
 
+    /**
+     * prompts the user to create a new project.
+     */
     private void loadNewProjectDialog()
     {
         //TODO: (done) add code to show the create project dialog.
@@ -248,14 +251,13 @@ public class MainScreen extends JPanel implements TaskModelListener
         int newProjectsCount = this.boardMainModel.numProjects();
 
         if(oldProjectsCount < newProjectsCount)
-        {
+        {// if a new project got created.
             this.selectedProjIndex = newProjectsCount -1;
             this.currentProj = this.boardMainModel.getProject(selectedProjIndex);
             this.update();
         }
         else
         {
-            System.out.println("Cancel got pressed for creating new project.");
             //if creating new project got canceled and there is no projects left in the mainboard.
             if(this.boardMainModel.numProjects() == 0)
             {
@@ -268,12 +270,18 @@ public class MainScreen extends JPanel implements TaskModelListener
 
     }
 
+    /**
+     * Shows the edit project dialog to edit the current project.
+     */
     private void loadEditProjectDialog()
     {
         // TODO: (done) add code to show the project edit dialog.
         CreateEditProjectDialog.show(this,this.currentProj);
     }
 
+    /**
+     * Deletes the project selected in the jcombobox.
+     */
     private void deleteSelectedProject()
     {
         this.boardMainModel.deleteProjects(this.boardMainModel.getProject(this.projectsDropDown.getSelectedIndex()));
@@ -290,10 +298,13 @@ public class MainScreen extends JPanel implements TaskModelListener
         this.update();
     }
 
+    /**
+     * Show the dialog to load a taskboard from the file system.
+     */
     private void loadTaskBoardFromFile()
     {
         // TODO: (done) add the code to show the loading dialog.
-        // TODO: (done) handle the null from the file handler.
+        // TODO: (done) handle the null from the file handler that indicates a cancel button press.
         TaskBoardModel temp = FileHandler.loadTaskBoard();
         if(temp != null)
         {
@@ -312,33 +323,35 @@ public class MainScreen extends JPanel implements TaskModelListener
         }
     }
 
+    /**
+     * Shows the dialog to save the taskboard to the file system.
+     */
     private void saveTaskBoardToFile()
     {
         // TODO: (done) add the code to show the saving dialog.
         FileHandler.saveTaskBoard(this.boardMainModel);
     }
 
+    /**
+     * get the current project in view.
+     */
     public ProjectModel getCurrProj()
     {
         return this.currentProj;
     }
 
+    /**
+     * get the taskboadmodel used in this view.
+     */
     public TaskBoardModel getTaskBoardModel()
     {
         return this.boardMainModel;
     }
 
-    public Task_comp getTask_compTestInstance()
-    {
-        return new Task_comp(null);
-    }
-
-    public Catergory_comp getCategory_compTestInstance()
-    {
-        return new Catergory_comp(null,null);
-    }
-
-    public class Task_comp extends JPanel implements MouseListener
+    /**
+     * This class represents the gui element that represents a task.
+     */
+    class Task_comp extends JPanel implements MouseListener
     {
         public Task_comp(TaskModel task)
         {
@@ -365,8 +378,10 @@ public class MainScreen extends JPanel implements TaskModelListener
             }
         }
 
-
-        public void handleGUIElements()
+        /**
+         * construct the gui.
+         */
+        private void handleGUIElements()
         {
 
             // TODO: (done) make the description box non editable.
@@ -404,15 +419,13 @@ public class MainScreen extends JPanel implements TaskModelListener
 
         }
 
-        private JLabel nameLabel;
-        // TODO: (done) use something different than a JLabel because the text is not wraping.
-        private JTextArea descriptionTextArea;
-        private JLabel dueDateLabel;
-        private Color background;
-        private TaskModel task;
+        private JLabel              nameLabel;
+        private JTextArea           descriptionTextArea;
+        private JLabel              dueDateLabel;
+        private Color               background;
+        private TaskModel           task;
 
-        @Override
-        public void paintComponent(Graphics g)
+        @Override public void paintComponent(Graphics g)
         {
 
             this.setBorder(BorderFactory.createLineBorder(this.getParent().getBackground(), 5, false));
@@ -426,24 +439,25 @@ public class MainScreen extends JPanel implements TaskModelListener
         }
 
         //implement the mouse listener interface.
-
-        @Override
-        public void mouseClicked(MouseEvent e)
+       
+        /**
+         * clicking on the task opens the dialog to edit it.
+         */
+        @Override public void mouseClicked(MouseEvent e)
         {
             // TODO: (done) create the dialog to edit the clicked task.
             CreateEditTaskDialog.show(MainScreen.this, this.task);
         }
 
-        @Override
-        public void mousePressed(MouseEvent e) {}
-        @Override
-        public void mouseReleased(MouseEvent e) {}
-        @Override
-        public void mouseEntered(MouseEvent e) {}
-        @Override
-        public void mouseExited(MouseEvent e) {}
+        @Override public void mousePressed(MouseEvent e) {}
+        @Override public void mouseReleased(MouseEvent e) {}
+        @Override public void mouseEntered(MouseEvent e) {}
+        @Override public void mouseExited(MouseEvent e) {}
     }
-
+    
+    /**
+     * this class is the gui component that represents the column.
+     */
     class Catergory_comp extends JPanel
     {
         public Catergory_comp(String name, ArrayList<TaskModel> tasks)
@@ -494,13 +508,12 @@ public class MainScreen extends JPanel implements TaskModelListener
             this.setMinimumSize(new Dimension(300,0));
         }
 
-        private JLabel name;
-        private JButton addTaskBtn;
-        private ArrayList<TaskModel> tasks;
-        private ArrayList<Task_comp> taskPanels;
+        private JLabel                  name;
+        private JButton                 addTaskBtn;
+        private ArrayList<TaskModel>    tasks;
+        private ArrayList<Task_comp>    taskPanels;
 
-        @Override
-        public void paintComponent(Graphics g)
+        @Override public void paintComponent(Graphics g)
         {
             this.setBackground(Color.yellow);
             this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
@@ -511,31 +524,24 @@ public class MainScreen extends JPanel implements TaskModelListener
             this.addTaskBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
             super.paintComponent(g);
         }
-
-
-
     }
 
-    private TaskBoardModel boardMainModel;
-    private ProjectModel currentProj;
-    private int selectedProjIndex;
-    private boolean isDropDownListnerActivated;
+    private TaskBoardModel      boardMainModel;
+    private ProjectModel        currentProj;
+    private int                 selectedProjIndex;
+    private boolean             isDropDownListnerActivated;
 
-    private JPanel
-            currentView,
-            navBar,
-            groupsComp;
+    private JPanel              currentView,
+                                navBar,
+                                groupsComp;
 
-    private JButton
-            editSelectedProjBtn,
-            saveTaskBoardBtn,
-            deleteSelectedProjBtn,
-            loadProjBtn,
-            createNewProjBtn,
-            logoutBtn;
-    private JComboBox<String> projectsDropDown;
-
-    //private FileHandler fileHandler;
+    private JButton             editSelectedProjBtn,
+                                saveTaskBoardBtn,
+                                deleteSelectedProjBtn,
+                                loadProjBtn,
+                                createNewProjBtn,
+                                logoutBtn;
+    private JComboBox<String>   projectsDropDown;
 
     /**
      * Covered Jobs:
@@ -543,8 +549,7 @@ public class MainScreen extends JPanel implements TaskModelListener
      * - update the drop down.
      * - load the current project.
      */
-    @Override
-    public void update()
+    @Override public void update()
     {
         this.groupsComp.removeAll();
         this.groupsComp.repaint();
@@ -552,10 +557,8 @@ public class MainScreen extends JPanel implements TaskModelListener
         loadDataFromCurrProject();
     }
 
-    @Override
-    public void paintComponent(Graphics g)
+    @Override public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
     }
-
 }
